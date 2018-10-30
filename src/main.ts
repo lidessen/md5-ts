@@ -1,3 +1,5 @@
+import { utf8_encode } from "./lib";
+
 const A = 0x67452301;
 const B = 0xefcdab89;
 const C = 0x98badcfe;
@@ -44,4 +46,12 @@ function md5(str: string) {
     const b = B;
     const c = C;
     const d = D;
+
+    str = utf8_encode(str);
+}
+
+function prepare_message(str: string) {
+    const length = str.length;
+
+    return str;
 }
