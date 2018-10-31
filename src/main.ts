@@ -1,4 +1,4 @@
-import { utf8_encode } from "./lib";
+import { utf8_encode, padding, to_binary, split } from "./lib";
 
 const A = 0x67452301;
 const B = 0xefcdab89;
@@ -42,16 +42,22 @@ for (const k in Methods) {
 }
 
 function md5(str: string) {
+    str = utf8_encode(str);
+    const uint8_array = prepare_message(str);
+    
     const a = A;
     const b = B;
     const c = C;
     const d = D;
-
-    str = utf8_encode(str);
 }
 
 function prepare_message(str: string) {
     const length = str.length;
+    const length_of_zero = Math.ceil(length / 64) * 64 - length - 8 -1;
+    str += String.fromCharCode(0b10000000);
+    str = padding(str, length_of_zero, String.fromCharCode(0));
 
-    return str;
+    const tail = split(to_binary(length * 8), 8).map(x => parseInt(x, 2));
+    const head = str.split("").map(x => x.charCodeAt(0));
+    return Uint8Array.from(head.concat(tail));
 }
