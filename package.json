@@ -1,7 +1,8 @@
 {
   "name": "md5-ts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "MD5 Encryption TypeScript Version",
+  "keywords": ["md5", "typescript", "ts"],
   "main": "lib/main.js",
   "typings": "lib/main.d.ts",
   "repository": "https://github.com/ztytotoro/md5-ts.git",
