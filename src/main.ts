@@ -1,4 +1,4 @@
-import { padding, to_binary, split, utf16_to_utf8, padding_array, little_endian, uint_add, loop_shift_left } from "./lib";
+import { padding, to_binary, split, utf16_to_utf8, little_endian, uint_add, loop_shift_left } from "./lib";
 
 const A = 0x67452301;
 const B = 0xefcdab89;
@@ -51,10 +51,10 @@ function prepare_message(str: string) {
     const length = str.length;
     const length_of_zero = Math.ceil(length / 64) * 64 - length - 8 - 1;
     str += String.fromCharCode(0b10000000);
-    const strArray = padding_array(str.split(""), length + 1 + length_of_zero, String.fromCharCode(0));
+    const strArray = padding(str.split(""), length + 1 + length_of_zero, String.fromCharCode(0));
 
     const tail = split(padding(to_binary(length * 8 % Math.pow(2, 64)), 64, "0"), 8).map(x => parseInt(x, 2));
-    const head = strArray.map(x => x.charCodeAt(0));
+    const head = (strArray as any[]).map(x => x.charCodeAt(0));
     return Uint32Array.from(
         split(head.concat(tail), 4)
         .map(x =>

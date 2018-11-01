@@ -14,14 +14,16 @@ export function split(target: string | any[], step: number, markString: boolean 
     return result;
 }
 
-export function padding(str: string, length: number, char: string, tail: boolean = true) {
-    const paddingStr: string = range(length - str.length).map(() => char).join("");
-    return tail ? str + paddingStr : paddingStr + str;
-}
-
-export function padding_array(arr: any[], length: number, char: string, tail: boolean = true) {
-    const paddingArr: any[] = range(length - arr.length).map(() => char);
-    return tail ? arr.concat(paddingArr) : paddingArr.concat(arr);
+export function padding(str: string | any[], length: number, char: string, tail: boolean = true, isArray: boolean = Array.isArray(str)) {
+    let arr;
+    if (Array.isArray(str)) {
+        arr = str;
+    } else {
+        arr = str.split("");
+    }
+    const paddingStr: any[] = range(length - str.length).map(() => char);
+    const result = tail ? arr.concat(paddingStr) : paddingStr.concat(arr);
+    return isArray ? result : result.join("");
 }
 
 export function little_endian(charCode: number) {
