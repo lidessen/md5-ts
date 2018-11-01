@@ -28,7 +28,11 @@ const S = [
     6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21
 ]
 
-function M_index(i: number) {
+function T(i: number) {
+    return Math.floor(Math.pow(2, 32) * Math.abs(Math.sin(i + 1)));
+}
+
+function x_index(i: number) {
     if (i >= 0 && i <= 15) return i;
     if (i >= 16 && i <= 31) return (5 * i + 1) % 16;
     if (i >= 32 && i <= 47) return (3 * i + 5) % 16;
@@ -36,18 +40,14 @@ function M_index(i: number) {
     return 0;
 }
 
-function K(i: number) {
-    return Math.floor(Math.pow(2, 32) * Math.abs(Math.sin(i + 1)));
-}
-
-function TT(m: any) {
+function wrap(m: any) {
     return (a: number, b: number, c: number, d: number, x: number, s: number, t: number) => {
         // 循环左移
         return uint_add(loop_shift_left(uint_add(a, m(b, c, d), x, t), s), b);
     };
 }
 
-function prepare_message(str: string) {
+function porcess_message(str: string) {
     const length = str.length;
     const length_of_zero = Math.ceil(length / 64) * 64 - length - 8 - 1;
     str += String.fromCharCode(0b10000000);
@@ -65,20 +65,20 @@ function prepare_message(str: string) {
     )
 }
 
-function FGHI(i: number) {
+function fghi(i: number) {
     if (i >= 0 && i <= 15) return F;
     if (i >= 16 && i <= 31) return G;
     if (i >= 32 && i <= 47) return H;
     if (i >= 48 && i <= 63) return I;
 }
 
-function FGHI_X(i: number) {
-    return TT(FGHI(i));
+function fghi_wrapped(i: number) {
+    return wrap(fghi(i));
 }
 
 export default function md5(str: string) {
     str = utf16_to_utf8(str);
-    const uint32_array = prepare_message(str);
+    const uint32_array = porcess_message(str);
     const result = Uint32Array.from([A, B, C, D]);
     const chunks = split(Array.from(uint32_array), 16);
     for (const chunk of chunks) {
@@ -88,7 +88,7 @@ export default function md5(str: string) {
         const d = result[3];
 
         for (let i = 0; i < 64; i++) {
-            result[(4 - i % 4) % 4] = FGHI_X(i)(result[(4 - i % 4) % 4], result[((4 - i % 4) + 1) % 4], result[((4 - i % 4) + 2) % 4], result[((4 - i % 4) + 3) % 4], chunk[M_index(i)], S[i], K(i))
+            result[(4 - i % 4) % 4] = fghi_wrapped(i)(result[(4 - i % 4) % 4], result[((4 - i % 4) + 1) % 4], result[((4 - i % 4) + 2) % 4], result[((4 - i % 4) + 3) % 4], chunk[x_index(i)], S[i], T(i))
         }
 
         result[0] = a + result[0];
