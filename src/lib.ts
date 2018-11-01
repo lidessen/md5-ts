@@ -19,6 +19,11 @@ export function padding(str: string, length: number, char: string, tail: boolean
     return tail ? str + paddingStr : paddingStr + str;
 }
 
+export function padding_array(arr: any[], length: number, char: string, tail: boolean = true) {
+    const paddingArr: any[] = range(length - arr.length).map(() => char);
+    return tail ? arr.concat(paddingArr) : paddingArr.concat(arr);
+}
+
 export function little_endian(charCode: number) {
     return split(padding(charCode.toString(16), 8, "0", false), 2).reverse().join("");
 }
@@ -66,4 +71,15 @@ export function utf8_encode(char: string) {
     }
 
     return utftext;
+}
+
+export function uint_add(...args: number[]) {
+    const t = Uint32Array.from([0]);
+    const x = Uint32Array.from(args);
+    x.forEach(n => t[0] = t[0] + n);
+    return t[0];
+}
+
+export function loop_shift_left(n: number, bits: number) {
+    return (n << bits) | (n >>> (32 - bits));
 }

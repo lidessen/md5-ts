@@ -1,6 +1,6 @@
 {
   "name": "md5-ts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "MD5 Encryption TypeScript Version",
   "main": "lib/main.js",
   "typings": "lib/main.d.ts",
@@ -8,7 +8,9 @@
   "author": "ztytotoro",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "pub": "npm run build & npm publish"
   },
   "devDependencies": {
     "@types/jest": "^23.3.7",
@@ -19,6 +21,7 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "rootDir": "src"
   }
 }

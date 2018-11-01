@@ -21,6 +21,8 @@
         "max-line-length": false,
         "curly": false,
         "no-string-literal": false,
-        "no-bitwise": false
+        "no-bitwise": false,
+        "variable-name": false,
+        "arrow-parens": false
     }
 }
