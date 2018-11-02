@@ -4,6 +4,7 @@
   "description": "MD5 Encryption TypeScript Version",
   "keywords": ["md5", "typescript", "ts"],
   "main": "lib/main.js",
+  "files": ["lib"],
   "typings": "lib/main.d.ts",
   "repository": "https://github.com/ztytotoro/md5-ts.git",
   "author": "ztytotoro",
