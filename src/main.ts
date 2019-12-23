@@ -133,12 +133,14 @@ function porcess_message(str: string) {
     String.fromCharCode(0)
   );
 
+  // use 64 bit to store the raw message length at the end
   const tail = split(
     padding(to_binary((length * 8) % Math.pow(2, 64), 64), 64, '0'),
     8
   )
     .reverse()
     .map(x => parseInt(x, 2));
+
   const head = (strArray as any[]).map(x => x.charCodeAt(0));
   return Uint32Array.from(
     split(head.concat(tail), 4)
