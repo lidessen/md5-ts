@@ -125,7 +125,7 @@ function wrap(m: any) {
 
 function porcess_message(str: string) {
   const length = str.length;
-  const length_of_zero = Math.ceil(length / 64) * 64 - length - 8 - 1;
+  const length_of_zero = 63 - ((length + 8) % 64);
   str += String.fromCharCode(0b10000000);
   const strArray = padding(
     str.split(''),

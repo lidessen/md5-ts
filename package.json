@@ -1,6 +1,6 @@
 {
   "name": "md5-ts",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "MD5 Encryption TypeScript Version",
   "keywords": [
     "md5",
